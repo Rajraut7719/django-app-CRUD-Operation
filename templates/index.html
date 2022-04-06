@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="center">
+    <h1>List all users</h1>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+          <form class="form-inline">
+              <div class="form-group mb-2">
+                  <label for="searchUser" class="sr-only">Search user:  </label>         
+                  <input type="text" name="searchuser" id="searchUser" class="form-control-plaintext" placeholder="Search user by name: ">
+              </div>
+              <div class="form-group mx-sm-3 mb-2">
+                 <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+          </form>
+        </div>
+      </div>
+      <br>
+    <table class="table">
+       <thead class="thead-dark">
+        <tr>
+            <th scope="col">Sr_id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            {% comment %} <th scope="col">Time</th> {% endcomment %}
+            <th scope="col">Actions</th>
+           
+        </tr>
+        <tbody>
+            {% for usr in users %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <th>{{ usr.title }}</th>
+                <th>{{ usr.description }}</th>
+
+               
+                {% comment %} <th>{{ usr. pub_date }}</th> {% endcomment %}
+                <th scope="col">
+                    <a href="{% url 'update' usr.id %}" class="btn btn-primary  active" role="button" aria-pressed="true">Update</a>
+                    <a href="{% url 'delete' usr.id %}" class="btn btn-danger  active"  role="button" aria-pressed="true">Delete</a>
+                    {% comment %} <a href="{% url '' usr.id %}" type="button" class="btn btn-danger  active"  role="button" aria-pressed="true" data-toggle="modal" data-target="#myModal">Views</a> {% endcomment %}
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Open modal
+                      </button>
+                    
+                      <!-- The Modal -->
+                      <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                {{ usr.description }}
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div> 
+                          </div>
+                        </div>
+                      </div>
+                </th>
+                </th>
+            {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <a href="{% url 'create' %}"><button class="btn btn-success">Create new user</button></a>
+</div>
+
+{% endblock %}
